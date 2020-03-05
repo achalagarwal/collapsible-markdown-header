@@ -1,6 +1,12 @@
 # collapsible-markdown-headers README
 
+## Brief Introduction
+
 As a power user of VSCode, I use it extensively for creating markdowns to help with my current research and other day to day tasks. Thus I have created an extension for VSCode named "collapsible-markdown-headers".
+
+## Why an extension?
+
+I needed a keyboard shortcut for carrying out the above task but there were none and VSCode had no option for extracting text or running a conditional without creating an extension.
 
 ## Features
 
@@ -27,7 +33,7 @@ This extension contributes the following settings:
 
 ## Known Issues
 
-Selects only the first word from the line above.
+None that I am aware of.
 
 ## Release Notes
 
