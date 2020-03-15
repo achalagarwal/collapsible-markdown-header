@@ -146,10 +146,14 @@ export function activate(context: vscode.ExtensionContext) {
 
 			// otherwise we check the line above for help
 			if(!header_text){
+				vscode.TextEditorLineNumbersStyle.On;
+				// 1 indexed!
 				let line = editor.selection.active.line;
-				if(line){
-					line = line - 1;
-		
+
+				// if(line){
+					while(line>=1){
+
+					line -= 1;
 					let textLine = document.lineAt(line);
 					if(textLine){
 						let text = textLine.text;
@@ -160,11 +164,23 @@ export function activate(context: vscode.ExtensionContext) {
 						if (text){
 
 							header_count = countHeaderHashes(text);
-							text = text.replace(/[^a-z\s0-9+]+/gi, '');
-							header_text = text;
+							if(header_count > 0){
+								text = text.replace(/[^a-z\s0-9+]+/gi, '');
+								header_text = text;
+								break;
+							}
 						}
 					}
+					// line = line - 1;
+
 				}
+				if(line === -1){
+					header_count = 0;
+					header_text = "";
+					
+				}
+
+				// }
 				
 				// assuming that selection.text or 
 				// replace might result in undefined
@@ -189,7 +205,13 @@ export function activate(context: vscode.ExtensionContext) {
 						if(input && editor){
 							// let selection = editor.document.getWordRangeAtPosition(
 							// 	editor.selection.start);
-							let position = editor.selection.active;
+							if(line!==-1){
+							position = new vscode.Position(line+1,0);
+							}
+							else{
+							position = editor.selection.active;
+
+							}
 							title_text = input;
 							if(header_count === 0){
 								let string = "\n<details>\n\n<summary> "
@@ -228,7 +250,7 @@ export function activate(context: vscode.ExtensionContext) {
 								// current header hashes (header_count)
 								else {
 									line = position.line;
-									while(line <= last_line ){
+									while(line < last_line ){
 										let currentText = document.lineAt(line).text;
 
 										position = new vscode.Position(line, 0);
